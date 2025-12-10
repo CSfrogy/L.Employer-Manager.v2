@@ -850,6 +850,12 @@
                         <span class="mobile-nav-text">Profile</span>
                     </a>
                 </li>
+                <li class="mobile-nav-item">
+                    <button class="mobile-nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" data-nav="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="mobile-nav-text">Logout</span>
+                    </button>
+                </li>
             </ul>
         </nav>
     </div>
