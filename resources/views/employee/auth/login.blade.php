@@ -13,9 +13,7 @@
 
     <link href="{{ asset('main.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    @if(!file_exists(public_path('build/manifest.json')))
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-    @endif
 </head>
 
 <body class="employee-login">
@@ -78,7 +76,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ asset('assets/scripts/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         function togglePassword() {
             const passwordInput = document.getElementById('password');
