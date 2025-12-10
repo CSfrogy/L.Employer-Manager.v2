@@ -68,8 +68,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Copy application code
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --optimize-autoloader --no-dev --no-interaction --prefer-dist
+# Install PHP dependencies (skip scripts; run artisan later in entrypoint)
+RUN composer install --optimize-autoloader --no-dev --no-interaction --prefer-dist --no-scripts
 
 # Configure Apache for Laravel
 RUN a2enmod rewrite && \

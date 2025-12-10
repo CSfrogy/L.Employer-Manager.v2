@@ -30,6 +30,8 @@ fi
 
 # Clear and cache configuration files in production
 if [ "$APP_ENV" = "production" ]; then
+    echo "Running package discovery..."
+    php artisan package:discover --ansi || true
     echo "Caching configuration files..."
     php artisan config:cache
     php artisan route:cache
