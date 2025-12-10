@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 
@@ -552,7 +554,7 @@
             display: none !important;
         }
 
-        /* Mobile Navigation Styles */
+
         .mobile-nav {
             display: none;
             position: fixed;
@@ -643,13 +645,13 @@
             display: none;
         }
 
-        /* Mobile bottom padding to account for fixed nav */
+
         .mobile-nav-padding {
             display: none;
             height: 70px;
         }
 
-        /* Show mobile navigation only on mobile devices */
+
         @media (max-width: 768px) {
             .mobile-nav,
             .mobile-nav-padding {
@@ -660,7 +662,7 @@
                 padding-bottom: 80px;
             }
 
-            /* Hide desktop header actions on very small screens */
+
             .header-actions-container {
                 display: none;
             }
@@ -670,7 +672,7 @@
             }
         }
 
-        /* Additional responsive adjustments */
+
         @media (max-width: 576px) {
             .mobile-nav-link {
                 padding: 6px 8px;
@@ -690,7 +692,7 @@
             }
         }
 
-        /* Animation for active state */
+
         @keyframes navItemActive {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -802,7 +804,7 @@
             <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         </div>
 
-        <!-- Mobile Navigation -->
+
         <div class="mobile-nav-padding"></div>
         <nav class="mobile-nav">
             <ul class="mobile-nav-list">
@@ -860,7 +862,7 @@
 
     <script>
         $(document).ready(function() {
-            // Dropdown functionality
+
             $('.dropdown-toggle').click(function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -868,55 +870,46 @@
                 const dropdown = $(this).closest('.dropdown');
                 const isOpen = dropdown.hasClass('show');
 
-                // Close all other dropdowns
+
                 $('.dropdown').removeClass('show');
 
-                // Toggle current dropdown
                 if (!isOpen) {
                     dropdown.addClass('show');
                 }
             });
 
-            // Close dropdown when clicking outside
+
             $(document).click(function(e) {
                 if (!$(e.target).closest('.dropdown').length) {
                     $('.dropdown').removeClass('show');
                 }
             });
 
-            // Close dropdown on escape key
+
             $(document).keyup(function(e) {
-                if (e.keyCode === 27) { // Escape key
+
+                if (e.keyCode === 27) {
                     $('.dropdown').removeClass('show');
                 }
             });
 
-            // Mobile Navigation functionality
+
             $('.mobile-nav-link').click(function(e) {
-                // Add active state with animation
                 $('.mobile-nav-link').removeClass('active');
                 $(this).addClass('active');
                 
-                // Add haptic feedback simulation for mobile
                 if ('vibrate' in navigator) {
                     navigator.vibrate(50);
                 }
                 
-                // Update badges when navigating
                 updateNavigationBadges();
             });
 
-            // Update navigation badges
+
             function updateNavigationBadges() {
-                // Simulate real-time badge updates (you can integrate with your backend)
                 const tasksBadge = $('#tasks-badge');
                 const messagesBadge = $('#messages-badge');
                 
-                // Example: Update tasks badge if user has pending tasks
-                // This would typically come from your backend API
-                // For demo purposes, we'll keep existing values
-                
-                // Show/hide badges based on count
                 if (tasksBadge.length && parseInt(tasksBadge.text()) > 0) {
                     tasksBadge.removeClass('hidden');
                 } else if (tasksBadge.length) {
@@ -930,17 +923,14 @@
                 }
             }
 
-            // Initialize badges on page load
             updateNavigationBadges();
 
-            // Handle orientation change for mobile devices
             $(window).on('orientationchange', function() {
                 setTimeout(function() {
                     updateNavigationBadges();
                 }, 500);
             });
 
-            // Add smooth scrolling for mobile navigation transitions
             $('.mobile-nav-link').on('click', function() {
                 const href = $(this).attr('href');
                 if (href && href.startsWith('#')) {
@@ -951,15 +941,14 @@
                 }
             });
 
-            // Add keyboard navigation support
             $('.mobile-nav-link').on('keydown', function(e) {
-                if (e.keyCode === 13 || e.keyCode === 32) { // Enter or Space
+
+                if (e.keyCode === 13 || e.keyCode === 32) {
                     e.preventDefault();
                     $(this).click();
                 }
             });
 
-            // Add touch gesture support for better mobile UX
             let touchStartX = 0;
             let touchEndX = 0;
             
@@ -977,7 +966,6 @@
                 const diff = touchStartX - touchEndX;
                 
                 if (Math.abs(diff) > swipeThreshold) {
-                    // Add subtle animation feedback for swipe gestures
                     $('.mobile-nav').addClass('swipe-animation');
                     setTimeout(function() {
                         $('.mobile-nav').removeClass('swipe-animation');
@@ -985,7 +973,6 @@
                 }
             }
 
-            // Add CSS for swipe animation
             $('<style>')
                 .prop('type', 'text/css')
                 .html(`
