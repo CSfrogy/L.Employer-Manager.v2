@@ -1,15 +1,26 @@
 <?php
 
 use Illuminate\Support\Str;
-if (env('DATABASE_URL')) {
-    $url = parse_url(env('DATABASE_URL'));
+
+// Handle Railway database URL if present
+if (getenv('DATABASE_URL')) {
+    $url = parse_url(getenv('DATABASE_URL'));
     
-    // Override environment variables from DATABASE_URL
-    putenv('DB_HOST=' . ($url['host'] ?? '127.0.0.1'));
-    putenv('DB_PORT=' . ($url['port'] ?? '3306'));
-    putenv('DB_DATABASE=' . substr($url['path'] ?? '', 1));
-    putenv('DB_USERNAME=' . ($url['user'] ?? ''));
-    putenv('DB_PASSWORD=' . ($url['pass'] ?? ''));
+    // Set environment variables directly from DATABASE_URL
+    $_ENV['DB_CONNECTION'] = 'mysql';
+    $_ENV['DB_HOST'] = $url['host'] ?? '127.0.0.1';
+    $_ENV['DB_PORT'] = $url['port'] ?? '3306';
+    $_ENV['DB_DATABASE'] = isset($url['path']) ? ltrim($url['path'], '/') : 'forge';
+    $_ENV['DB_USERNAME'] = $url['user'] ?? 'forge';
+    $_ENV['DB_PASSWORD'] = $url['pass'] ?? '';
+    
+    // Also set in $_SERVER for CLI commands
+    $_SERVER['DB_CONNECTION'] = 'mysql';
+    $_SERVER['DB_HOST'] = $_ENV['DB_HOST'];
+    $_SERVER['DB_PORT'] = $_ENV['DB_PORT'];
+    $_SERVER['DB_DATABASE'] = $_ENV['DB_DATABASE'];
+    $_SERVER['DB_USERNAME'] = $_ENV['DB_USERNAME'];
+    $_SERVER['DB_PASSWORD'] = $_ENV['DB_PASSWORD'];
 }
 
 return [
