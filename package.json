@@ -2,16 +2,13 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "postinstall": "npm run build"
+        "build": "vite build"
     },
     "devDependencies": {
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^2.0.1",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
-        "vite": "^7.1.12",
-        "autoprefixer": "^10.4.16",
-        "tailwindcss": "^3.3.5"
+        "vite": "^7.1.12"
     }
 }
