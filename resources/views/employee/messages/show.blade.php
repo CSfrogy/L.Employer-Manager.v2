@@ -2,6 +2,88 @@
 
 @section('title', 'Message Details')
 
+@push('styles')
+    <style>
+        .conversation-thread {
+            background: #f5f7fb;
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .reply-message {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .reply-message.reply-admin {
+            justify-content: flex-start;
+        }
+
+        .reply-message.reply-employee {
+            justify-content: flex-end;
+        }
+
+        .reply-message .reply-header {
+            margin-bottom: 4px;
+        }
+
+        .reply-message .reply-content {
+            max-width: 70%;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+        }
+
+        .reply-message.reply-admin .reply-content {
+            border-top-left-radius: 4px;
+        }
+
+        .reply-message.reply-employee .reply-content {
+            border-top-right-radius: 4px;
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .reply-message.reply-employee .reply-content.bg-light {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .reply-message .reply-content.bg-primary {
+            background: #0f172a;
+            color: #ffffff;
+        }
+
+        .conversation-thread strong {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .conversation-thread small.text-muted {
+            font-size: 0.8rem;
+        }
+
+        .message-content .border.rounded.p-3.bg-light {
+            border-radius: 14px !important;
+            background: #f8fafc !important;
+            border-color: #e5e7eb !important;
+        }
+
+        .card-footer h6 i {
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .reply-message .reply-content {
+                max-width: 100%;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="app-main__inner">
         <!-- Page Title -->
