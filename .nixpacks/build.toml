@@ -1,19 +1,18 @@
 [phases.setup]
-nixPkgs = ["php", "phpPackages.composer", "nodejs_20", "nginx", "libmysqlclient"]
+nixPkgs = ["php82", "php82Packages.composer", "nodejs_20"]
 
 [phases.install]
 cmds = [
-  "mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx",
-  "composer install --ignore-platform-reqs",
-  "npm ci"
+    "composer install --no-dev --optimize-autoloader --ignore-platform-reqs",
+    "npm ci"
 ]
 
 [phases.build]
 cmds = ["npm run build"]
 
-# NO release phase - this prevents migrations during build
-# [phases.release]
-# cmds = []
+# CRITICAL: Explicitly empty release phase
+[phases.release]
+cmds = []
 
 [start]
 cmd = "php artisan serve --host=0.0.0.0 --port=\${PORT}"
