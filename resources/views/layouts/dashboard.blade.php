@@ -543,12 +543,162 @@
             margin-left: 0 !important;
         }
 
+
         .app-container.app-theme-white.body-tabs-shadow.fixed-sidebar.fixed-header {
             margin-left: 0 !important;
         }
 
         .scrollbar-sidebar {
             display: none !important;
+        }
+
+        /* Mobile Navigation Styles */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-nav-list {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        .mobile-nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 56px;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .mobile-nav-link:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-nav-link i {
+            font-size: 20px;
+            position: relative;
+        }
+
+        .mobile-nav-text {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mobile-nav-badge {
+            position: absolute;
+            top: -2px;
+            right: -8px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: 700;
+            min-width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+            border: 2px solid #2c3e50;
+        }
+
+        .mobile-nav-badge.hidden {
+            display: none;
+        }
+
+        /* Mobile bottom padding to account for fixed nav */
+        .mobile-nav-padding {
+            display: none;
+            height: 70px;
+        }
+
+        /* Show mobile navigation only on mobile devices */
+        @media (max-width: 768px) {
+            .mobile-nav,
+            .mobile-nav-padding {
+                display: block;
+            }
+
+            .app-main {
+                padding-bottom: 80px;
+            }
+
+            /* Hide desktop header actions on very small screens */
+            .header-actions-container {
+                display: none;
+            }
+
+            .user-info {
+                display: none;
+            }
+        }
+
+        /* Additional responsive adjustments */
+        @media (max-width: 576px) {
+            .mobile-nav-link {
+                padding: 6px 8px;
+                min-height: 52px;
+            }
+
+            .mobile-nav-link i {
+                font-size: 18px;
+            }
+
+            .mobile-nav-text {
+                font-size: 10px;
+            }
+
+            .app-main {
+                padding-bottom: 75px;
+            }
+        }
+
+        /* Animation for active state */
+        @keyframes navItemActive {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .mobile-nav-link.active {
+            animation: navItemActive 0.3s ease;
         }
     </style>
 </head>
@@ -646,16 +796,67 @@
                 </div>
             </div>
         </div>
+
         <div class="app-main">
             @yield('content')
             <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav-padding"></div>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list">
+                <li class="mobile-nav-item">
+                    <a href="{{ route('employee.dashboard') }}" 
+                       class="mobile-nav-link {{ Request::route()->getName() == 'employee.dashboard' ? 'active' : '' }}" 
+                       data-nav="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span class="mobile-nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="{{ route('employee.tasks.index') }}" 
+                       class="mobile-nav-link {{ Request::route()->getName() == 'employee.tasks.index' || Request::route()->getName() == 'employee.tasks.show' ? 'active' : '' }}" 
+                       data-nav="tasks">
+                        <i class="fas fa-tasks"></i>
+                        <span class="mobile-nav-text">Tasks</span>
+                        @if($userRole === 'employee' && isset($taskStats) && $taskStats['active_tasks'] > 0)
+                            <span class="mobile-nav-badge" id="tasks-badge">{{ $taskStats['active_tasks'] }}</span>
+                        @else
+                            <span class="mobile-nav-badge hidden" id="tasks-badge">0</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="{{ route('employee.messages.index') }}" 
+                       class="mobile-nav-link {{ Request::route()->getName() == 'employee.messages.index' || Request::route()->getName() == 'employee.messages.show' || Request::route()->getName() == 'employee.messages.create' ? 'active' : '' }}" 
+                       data-nav="messages">
+                        <i class="fas fa-paper-plane"></i>
+                        <span class="mobile-nav-text">Messages</span>
+                        @if($userRole === 'employee' && isset($unreadMessages) && $unreadMessages > 0)
+                            <span class="mobile-nav-badge" id="messages-badge">{{ $unreadMessages }}</span>
+                        @else
+                            <span class="mobile-nav-badge hidden" id="messages-badge">0</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="{{ route('employee.profile.index') }}" 
+                       class="mobile-nav-link {{ Request::route()->getName() == 'employee.profile.index' ? 'active' : '' }}" 
+                       data-nav="profile">
+                        <i class="fas fa-user"></i>
+                        <span class="mobile-nav-text">Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
     <script type="text/javascript" src="{{ asset('assets/scripts/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -689,6 +890,111 @@
                     $('.dropdown').removeClass('show');
                 }
             });
+
+            // Mobile Navigation functionality
+            $('.mobile-nav-link').click(function(e) {
+                // Add active state with animation
+                $('.mobile-nav-link').removeClass('active');
+                $(this).addClass('active');
+                
+                // Add haptic feedback simulation for mobile
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+                
+                // Update badges when navigating
+                updateNavigationBadges();
+            });
+
+            // Update navigation badges
+            function updateNavigationBadges() {
+                // Simulate real-time badge updates (you can integrate with your backend)
+                const tasksBadge = $('#tasks-badge');
+                const messagesBadge = $('#messages-badge');
+                
+                // Example: Update tasks badge if user has pending tasks
+                // This would typically come from your backend API
+                // For demo purposes, we'll keep existing values
+                
+                // Show/hide badges based on count
+                if (tasksBadge.length && parseInt(tasksBadge.text()) > 0) {
+                    tasksBadge.removeClass('hidden');
+                } else if (tasksBadge.length) {
+                    tasksBadge.addClass('hidden');
+                }
+                
+                if (messagesBadge.length && parseInt(messagesBadge.text()) > 0) {
+                    messagesBadge.removeClass('hidden');
+                } else if (messagesBadge.length) {
+                    messagesBadge.addClass('hidden');
+                }
+            }
+
+            // Initialize badges on page load
+            updateNavigationBadges();
+
+            // Handle orientation change for mobile devices
+            $(window).on('orientationchange', function() {
+                setTimeout(function() {
+                    updateNavigationBadges();
+                }, 500);
+            });
+
+            // Add smooth scrolling for mobile navigation transitions
+            $('.mobile-nav-link').on('click', function() {
+                const href = $(this).attr('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    $('html, body').animate({
+                        scrollTop: $(href).offset().top - 100
+                    }, 300);
+                }
+            });
+
+            // Add keyboard navigation support
+            $('.mobile-nav-link').on('keydown', function(e) {
+                if (e.keyCode === 13 || e.keyCode === 32) { // Enter or Space
+                    e.preventDefault();
+                    $(this).click();
+                }
+            });
+
+            // Add touch gesture support for better mobile UX
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            $('.mobile-nav').on('touchstart', function(e) {
+                touchStartX = e.originalEvent.changedTouches[0].screenX;
+            });
+            
+            $('.mobile-nav').on('touchend', function(e) {
+                touchEndX = e.originalEvent.changedTouches[0].screenX;
+                handleSwipeGesture();
+            });
+            
+            function handleSwipeGesture() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    // Add subtle animation feedback for swipe gestures
+                    $('.mobile-nav').addClass('swipe-animation');
+                    setTimeout(function() {
+                        $('.mobile-nav').removeClass('swipe-animation');
+                    }, 300);
+                }
+            }
+
+            // Add CSS for swipe animation
+            $('<style>')
+                .prop('type', 'text/css')
+                .html(`
+                    .mobile-nav.swipe-animation {
+                        transform: translateX(5px);
+                        transition: transform 0.1s ease;
+                    }
+                `)
+                .appendTo('head');
         });
     </script>
 
