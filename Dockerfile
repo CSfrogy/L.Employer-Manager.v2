@@ -36,6 +36,8 @@ RUN apt-get update -qq && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update -qq && \
     apt-get install -y \
+    php \
+    php-mysql \
     php8.2 \
     php8.2-cli \
     php8.2-fpm \

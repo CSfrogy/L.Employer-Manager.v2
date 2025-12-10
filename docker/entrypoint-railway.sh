@@ -6,6 +6,12 @@ cd /var/www/html
 
 echo "Starting Railway deployment..."
 
+# Ensure pdo_mysql is enabled at runtime
+if ! php -m | grep -qi "pdo_mysql"; then
+    echo "Enabling pdo_mysql extension..."
+    phpenmod pdo_mysql || true
+fi
+
 # Ensure an .env exists (copy from example if present)
 if [ ! -f ".env" ] && [ -f ".env.example" ]; then
     echo "Creating .env from .env.example..."
