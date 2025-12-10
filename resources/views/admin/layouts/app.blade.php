@@ -186,6 +186,119 @@
                 padding: 10px;
             }
         }
+
+        /* Mobile Navigation Bar */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-nav-list {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        .mobile-nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 56px;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .mobile-nav-link:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-nav-link i {
+            font-size: 20px;
+            position: relative;
+        }
+
+        .mobile-nav-text {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mobile-nav-padding {
+            display: none;
+            height: 70px;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav,
+            .mobile-nav-padding {
+                display: block;
+            }
+
+            .app-main {
+                padding-bottom: 80px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .mobile-nav-link {
+                padding: 6px 8px;
+                min-height: 52px;
+            }
+
+            .mobile-nav-link i {
+                font-size: 18px;
+            }
+
+            .mobile-nav-text {
+                font-size: 10px;
+            }
+
+            .app-main {
+                padding-bottom: 75px;
+            }
+        }
+
+        @keyframes navItemActive {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .mobile-nav-link.active {
+            animation: navItemActive 0.3s ease;
+        }
     </style>
 </head>
 
@@ -380,12 +493,94 @@
             @yield('content')
             <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         </div>
+
+        <div class="mobile-nav-padding"></div>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list">
+                <li class="mobile-nav-item">
+                    <a href="{{ route('admin.dashboard') }}"
+                       class="mobile-nav-link {{ Request::route()->getName() == 'admin.dashboard' ? 'active' : '' }}"
+                       data-nav="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span class="mobile-nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <button class="mobile-nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" data-nav="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="mobile-nav-text">Logout</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </div>
     <script type="text/javascript" src="{{ asset('assets/scripts/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Mobile navigation functionality
+            $('.mobile-nav-link').click(function(e) {
+                $('.mobile-nav-link').removeClass('active');
+                $(this).addClass('active');
+
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+            });
+
+            // Handle logout button click
+            $('.mobile-nav-link[data-nav="logout"]').click(function(e) {
+                e.preventDefault();
+                $(this).addClass('active');
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+                setTimeout(function() {
+                    document.getElementById('logout-form').submit();
+                }, 100);
+            });
+
+            // Touch gestures
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            $('.mobile-nav').on('touchstart', function(e) {
+                touchStartX = e.originalEvent.changedTouches[0].screenX;
+            });
+
+            $('.mobile-nav').on('touchend', function(e) {
+                touchEndX = e.originalEvent.changedTouches[0].screenX;
+                handleSwipeGesture();
+            });
+
+            function handleSwipeGesture() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    $('.mobile-nav').addClass('swipe-animation');
+                    setTimeout(function() {
+                        $('.mobile-nav').removeClass('swipe-animation');
+                    }, 300);
+                }
+            }
+
+            // Add swipe animation style
+            $('<style>')
+                .prop('type', 'text/css')
+                .html(`
+                    .mobile-nav.swipe-animation {
+                        transform: translateX(5px);
+                        transition: transform 0.1s ease;
+                    }
+                `)
+                .appendTo('head');
+        });
+    </script>
 
     @yield('footer')
 </body>
