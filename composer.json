@@ -50,18 +50,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "post-install-cmd": [
-            "php artisan optimize:clear",
-            "npm install",
-            "npm run build"
-        ],
-        "post-deploy": [
-            "php artisan migrate --force",
-            "php artisan storage:link",
-            "php artisan config:cache",
-            "php artisan route:cache",
-            "php artisan view:cache"
         ]
     },
     "extra": {
