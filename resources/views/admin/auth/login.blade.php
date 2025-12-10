@@ -11,9 +11,9 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta name="description" content="Employee Management System - Admin Login">
 
-    <link href="{{ asset('main.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('main.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/auth.css') }}">
 </head>
 
 <body>
