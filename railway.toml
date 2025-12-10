@@ -1,10 +1,8 @@
 [build]
 builder = "dockerfile"
-buildCommand = "docker build -t laravel-app ."
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "docker run -p $PORT:8080 laravel-app"
 healthcheckPath = "/"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
