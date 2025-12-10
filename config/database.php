@@ -24,4 +24,7 @@ return [
             ]) : [],
         ],
     ],
+
+    // Explicit migrations table name to avoid empty table name in some environments
+    'migrations' => 'migrations',
 ];
