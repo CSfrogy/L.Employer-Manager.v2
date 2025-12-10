@@ -1,6 +1,16 @@
 <?php
 
 use Illuminate\Support\Str;
+if (env('DATABASE_URL')) {
+    $url = parse_url(env('DATABASE_URL'));
+    
+    // Override environment variables from DATABASE_URL
+    putenv('DB_HOST=' . ($url['host'] ?? '127.0.0.1'));
+    putenv('DB_PORT=' . ($url['port'] ?? '3306'));
+    putenv('DB_DATABASE=' . substr($url['path'] ?? '', 1));
+    putenv('DB_USERNAME=' . ($url['user'] ?? ''));
+    putenv('DB_PASSWORD=' . ($url['pass'] ?? ''));
+}
 
 return [
 
