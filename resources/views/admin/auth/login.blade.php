@@ -126,7 +126,7 @@
             hideAlerts();
 
             $.ajax({
-                url: '{{ route("admin.login") }}',
+                url: '/admin/login/post',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
