@@ -843,12 +843,27 @@
                     </a>
                 </li>
                 <li class="mobile-nav-item">
-                    <a href="{{ route('employee.profile.index') }}" 
-                       class="mobile-nav-link {{ Request::route()->getName() == 'employee.profile.index' ? 'active' : '' }}" 
-                       data-nav="profile">
-                        <i class="fas fa-user"></i>
-                        <span class="mobile-nav-text">Profile</span>
-                    </a>
+                    @if($userRole === 'admin')
+                        <a href="{{ route('admin.dashboard') }}"
+                           class="mobile-nav-link {{ Request::route()->getName() == 'admin.dashboard' ? 'active' : '' }}"
+                           data-nav="dashboard">
+                            <i class="fas fa-home"></i>
+                            <span class="mobile-nav-text">Dashboard</span>
+                        </a>
+                    @else
+                        <a href="{{ route('employee.profile.index') }}"
+                           class="mobile-nav-link {{ Request::route()->getName() == 'employee.profile.index' ? 'active' : '' }}"
+                           data-nav="profile">
+                            <i class="fas fa-user"></i>
+                            <span class="mobile-nav-text">Profile</span>
+                        </a>
+                    @endif
+                </li>
+                <li class="mobile-nav-item">
+                    <button class="mobile-nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" data-nav="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="mobile-nav-text">Logout</span>
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -897,12 +912,24 @@
             $('.mobile-nav-link').click(function(e) {
                 $('.mobile-nav-link').removeClass('active');
                 $(this).addClass('active');
-                
+
                 if ('vibrate' in navigator) {
                     navigator.vibrate(50);
                 }
-                
+
                 updateNavigationBadges();
+            });
+
+            // Handle logout button click
+            $('.mobile-nav-link[data-nav="logout"]').click(function(e) {
+                e.preventDefault();
+                $(this).addClass('active');
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+                setTimeout(function() {
+                    document.getElementById('logout-form').submit();
+                }, 100);
             });
 
 
