@@ -47,6 +47,9 @@ RUN apt-get update -qq && \
     php8.2-intl \
     && rm -rf /var/lib/apt/lists/*
 
+# Ensure PHP 8.2 is the default CLI and pdo_mysql is enabled
+RUN update-alternatives --set php /usr/bin/php8.2 && phpenmod pdo_mysql
+
 # Configure PHP for Laravel
 RUN echo "memory_limit = 256M" > /etc/php/8.2/cli/conf.d/99-custom.ini && \
     echo "upload_max_filesize = 64M" >> /etc/php/8.2/cli/conf.d/99-custom.ini && \
@@ -58,6 +61,9 @@ COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www/html
+
+# Allow composer plugins when running as root in Docker
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Copy application code
 COPY . .

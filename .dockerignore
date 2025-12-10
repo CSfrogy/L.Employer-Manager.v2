@@ -29,7 +29,6 @@ yarn.lock
 # Composer
 vendor
 composer.phar
-composer.lock
 
 # IDE and editor files
 .vscode
