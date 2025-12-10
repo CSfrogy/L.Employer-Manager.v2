@@ -19,6 +19,8 @@ RUN apt-get update -qq && \
     libjpeg-dev \
     libfreetype6-dev \
     build-essential \
+    apache2 \
+    apache2-utils \
     apache2-dev \
     && rm -rf /var/lib/apt/lists/*
 
