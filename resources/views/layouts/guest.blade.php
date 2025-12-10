@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'L.Employee') }} - @yield('title', 'Employee Management System')</title>
     <meta name="description" content="Employee Management System">
 
-    @vite(['resources/css/landing.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     @if(!file_exists(public_path('build/manifest.json')))
