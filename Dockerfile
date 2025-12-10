@@ -49,11 +49,12 @@ RUN apt-get update -qq && \
     php8.2-intl \
     && rm -rf /var/lib/apt/lists/*
 
-# Ensure PHP 8.2 is the default CLI and pdo_mysql is enabled (CLI + Apache)
+# Ensure PHP 8.2 is the default CLI and pdo_mysql is enabled (CLI + FPM)
 RUN update-alternatives --set php /usr/bin/php8.2 && \
     phpenmod pdo_mysql && \
+    mkdir -p /etc/php/8.2/cli/conf.d /etc/php/8.2/fpm/conf.d && \
     echo "extension=pdo_mysql.so" > /etc/php/8.2/cli/conf.d/20-pdo_mysql.ini && \
-    echo "extension=pdo_mysql.so" > /etc/php/8.2/apache2/conf.d/20-pdo_mysql.ini
+    echo "extension=pdo_mysql.so" > /etc/php/8.2/fpm/conf.d/20-pdo_mysql.ini
 
 # Configure PHP for Laravel
 RUN echo "memory_limit = 256M" > /etc/php/8.2/cli/conf.d/99-custom.ini && \
