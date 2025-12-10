@@ -1,0 +1,21 @@
+commit
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# interactive rebase in progress; onto 76a39db
+# Last command done (1 command done):
+#    pick 915461f commit
+# No commands remaining.
+# You are currently rebasing branch 'main' on '76a39db'.
+#
+# Changes to be committed:
+#	new file:   L.EmployerManager
+#	modified:   app/Http/Controllers/Employee/Auth/LoginController.php
+#	modified:   config/database.php
+#	modified:   package-lock.json
+#	modified:   public/css/auth.css
+#	modified:   resources/views/employee/auth/login.blade.php
+#	new file:   resources/views/employee/auth/register.blade.php
+#	modified:   routes/web.php
+#

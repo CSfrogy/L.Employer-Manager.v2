@@ -1,0 +1,9 @@
+commit
+
+# Conflicts:
+#	app/Http/Controllers/Employee/Auth/LoginController.php
+#	config/database.php
+#	package-lock.json
+#	public/css/auth.css
+#	resources/views/employee/auth/login.blade.php
+#	routes/web.php
