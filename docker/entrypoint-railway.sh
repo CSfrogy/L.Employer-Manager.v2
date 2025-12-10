@@ -6,6 +6,21 @@ cd /var/www/html
 
 echo "Starting Railway deployment..."
 
+# Ensure an .env exists (copy from example if present)
+if [ ! -f ".env" ] && [ -f ".env.example" ]; then
+    echo "Creating .env from .env.example..."
+    cp .env.example .env
+fi
+
+# If APP_KEY is provided via environment, ensure it is set in .env
+if [ ! -z "$APP_KEY" ]; then
+    if grep -q "^APP_KEY=" .env; then
+        sed -i "s|^APP_KEY=.*|APP_KEY=${APP_KEY}|" .env
+    else
+        echo "APP_KEY=${APP_KEY}" >> .env
+    fi
+fi
+
 # Install composer dependencies if vendor directory doesn't exist or is empty
 if [ ! -d "vendor" ] || [ -z "$(ls -A vendor 2>/dev/null)" ]; then
     echo "Installing composer dependencies..."
