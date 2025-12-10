@@ -11,11 +11,9 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta name="description" content="Employee Management System - Employee Registration">
 
-    <link href="{{ asset('main.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('main.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    @if(!file_exists(public_path('build/manifest.json')))
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-    @endif
+    <link rel="stylesheet" href="{{ secure_asset('css/auth.css') }}">
 </head>
 
 <body class="employee-login">
@@ -153,7 +151,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ asset('assets/scripts/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         function togglePassword(fieldId) {
             const passwordInput = document.getElementById(fieldId);
