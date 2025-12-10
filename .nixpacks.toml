@@ -1,3 +1,4 @@
+# .nixpacks.toml
 [phases.setup]
 aptPackages = [
     "libpng-dev",
