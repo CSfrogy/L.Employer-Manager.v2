@@ -1,12 +1,25 @@
 [build]
-builder = "nixpacks"
-buildCommand = "composer install --no-dev --optimize-autoloader && npm install && npm run build"
+builder = "dockerfile"
+buildCommand = "docker build -t laravel-app ."
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "vendor/bin/heroku-php-apache2 public/"
+startCommand = "docker run -p $PORT:8080 laravel-app"
 healthcheckPath = "/"
 healthcheckTimeout = 100
-releaseCommand = "php artisan migrate --force"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
 
 [[services]]
-port = 8080
+name = "laravel-app"
+source = "."
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[environments.production]
+variables = [
+    "APP_ENV=production",
+    "APP_DEBUG=false",
+    "RUN_MIGRATIONS=true",
+    "SEED=false"
+]
