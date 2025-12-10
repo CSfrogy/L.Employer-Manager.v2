@@ -34,9 +34,10 @@ class DashboardController extends Controller
 
     $tasks = $taskQuery->paginate(10)->appends($request->except('page'));
 
-    $totalTasks = Task::count();
-    $activeTasks = Task::where('status', 1)->count();
-    $inactiveTasks = Task::where('status', 0)->count();
+    // Cache counts for 5 minutes to avoid redundant queries
+    $totalTasks = \Cache::remember('total_tasks', 300, fn() => Task::count());
+    $activeTasks = \Cache::remember('active_tasks', 300, fn() => Task::where('status', 1)->count());
+    $inactiveTasks = \Cache::remember('inactive_tasks', 300, fn() => Task::where('status', 0)->count());
 
     $employeeQuery = Employee::latest();
 

@@ -12,7 +12,8 @@ class DashboardController extends Controller
     public function index(): View
     {
         $employee = Auth::guard('employee')->user();
-        $tasks = $employee->tasks()->latest()->get();
+        // Paginate tasks instead of loading all with get()
+        $tasks = $employee->tasks()->latest()->paginate(15);
 
         return view('employee.dashboard', [
             'employee' => $employee,
