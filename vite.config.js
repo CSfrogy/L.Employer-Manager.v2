@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import cdn from 'vite-plugin-cdn';
 
 export default defineConfig({
     plugins: [
@@ -10,6 +11,16 @@ export default defineConfig({
             ],
             refresh: true,
         }),
+        // Serve assets from jsDelivr CDN in production for faster loading
+        cdn({
+            modules: [
+                {
+                    name: 'jquery',
+                    var: 'jQuery',
+                    path: 'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js'
+                }
+            ]
+        })
     ],
     // Add these optimizations for production builds
     build: {
