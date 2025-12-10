@@ -19,7 +19,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $employee = Auth::guard('employee')->user();
-        $query = $employee->tasks()->with('employee');
+        $query = $employee->tasks()->select('id', 'emp_id', 'title', 'content', 'date', 'status', 'progress', 'created_at')->with('employee:id,name');
 
         // Filter by status if provided
         if ($request->has('status') && $request->status !== '') {
@@ -147,17 +147,23 @@ class TaskController extends Controller
     public function getTaskStats()
     {
         $employee = Auth::guard('employee')->user();
-        $tasks = $employee->tasks();
+        
+        // Cache stats for 10 minutes per employee
+        $cacheKey = "task_stats_{$employee->id}";
+        
+        return \Cache::remember($cacheKey, 600, function() use ($employee) {
+            $tasks = $employee->tasks();
 
-        $stats = [
-            'total_tasks' => $tasks->count(),
-            'active_tasks' => $tasks->where('status', 1)->count(),
-            'completed_tasks' => $tasks->where('status', 2)->count(),
-            'overdue_tasks' => $tasks->where('date', '<', now())->whereNotIn('status', [2])->count(),
-            'completion_rate' => $tasks->count() > 0 ?
-                round(($tasks->where('status', 2)->count() / $tasks->count()) * 100, 2) : 0
-        ];
+            $stats = [
+                'total_tasks' => $tasks->count(),
+                'active_tasks' => $tasks->where('status', 1)->count(),
+                'completed_tasks' => $tasks->where('status', 2)->count(),
+                'overdue_tasks' => $tasks->where('date', '<', now())->whereNotIn('status', [2])->count(),
+                'completion_rate' => $tasks->count() > 0 ?
+                    round(($tasks->where('status', 2)->count() / $tasks->count()) * 100, 2) : 0
+            ];
 
-        return $stats;
+            return $stats;
+        });
     }
 }

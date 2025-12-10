@@ -14,7 +14,10 @@ class DashboardController extends Controller
     $taskSearch = $request->get('task_search');
     $employeeSearch = $request->get('employee_search');
 
-    $taskQuery = Task::with('employee')->latest();
+    // Task query with eager loading and selective columns
+    $taskQuery = Task::select('id', 'emp_id', 'title', 'content', 'date', 'status', 'created_at')
+                     ->with('employee:id,name')
+                     ->latest();
 
     if ($status === 'active') {
         $taskQuery->where('status', 1);
@@ -39,7 +42,8 @@ class DashboardController extends Controller
     $activeTasks = \Cache::remember('active_tasks', 300, fn() => Task::where('status', 1)->count());
     $inactiveTasks = \Cache::remember('inactive_tasks', 300, fn() => Task::where('status', 0)->count());
 
-    $employeeQuery = Employee::latest();
+    // Employee query with selective columns
+    $employeeQuery = Employee::select('id', 'name', 'email', 'phone', 'city', 'created_at')->latest();
 
     if ($employeeSearch) {
         $employeeQuery->where(function($query) use ($employeeSearch) {

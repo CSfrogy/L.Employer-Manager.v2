@@ -47,4 +47,22 @@ class Employee extends Authenticatable
     public function tasks(){
         return $this->hasMany(Task::class, 'emp_id');
     }
+
+    // Cache employee task count
+    public function getTaskCountAttribute()
+    {
+        return \Cache::remember("employee_{$this->id}_task_count", 300, fn() => $this->tasks()->count());
+    }
+
+    // Get active tasks only
+    public function activeTasks()
+    {
+        return $this->tasks()->where('status', 1);
+    }
+
+    // Get completed tasks only
+    public function completedTasks()
+    {
+        return $this->tasks()->where('status', 2);
+    }
 }
