@@ -11,9 +11,9 @@ cmds = [
 [phases.build]
 cmds = ["npm run build"]
 
-# REMOVE or comment out the release phase
+# NO release phase - this prevents migrations during build
 # [phases.release]
-# cmds = ["php artisan migrate --force"]
+# cmds = []
 
 [start]
-cmd = "php artisan serve --host=0.0.0.0 --port=${PORT}"
+cmd = "php artisan serve --host=0.0.0.0 --port=\${PORT}"

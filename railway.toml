@@ -1,23 +1,7 @@
+
 [build]
-builder = "dockerfile"
-dockerfilePath = "Dockerfile"
+builder = "nixpacks"
 
 [deploy]
-healthcheckPath = "/"
-healthcheckTimeout = 100
-restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 3
-
-[[services]]
-name = "laravel-app"
-source = "."
-builder = "dockerfile"
-dockerfilePath = "Dockerfile"
-
-[environments.production]
-variables = [
-    "APP_ENV=production",
-    "APP_DEBUG=false",
-    "RUN_MIGRATIONS=true",
-    "SEED=false"
-]
+startCommand = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+    
