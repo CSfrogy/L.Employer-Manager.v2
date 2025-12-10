@@ -24,7 +24,15 @@ RUN apt-get update -qq && \
 
 
 # Install PHP and required extensions
+# Enable Ondřej PHP repository and install PHP 8.2 with extensions
 RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+    software-properties-common \
+    ca-certificates \
+    lsb-release \
+    apt-transport-https && \
+    add-apt-repository ppa:ondrej/php && \
+    apt-get update -qq && \
     apt-get install -y \
     php8.2 \
     php8.2-cli \
