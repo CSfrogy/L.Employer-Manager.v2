@@ -3,10 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
-<<<<<<< HEAD
 use App\Http\Controllers\Admin\DepartmentController;
-=======
->>>>>>> 915461f (commit)
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\LandingController;
@@ -14,27 +11,18 @@ use Illuminate\Support\Facades\Route;
 
 // Landing page
 Route::get('/', [LandingController::class, 'index'])->name('landing');
-<<<<<<< HEAD
 
-=======
->>>>>>> 915461f (commit)
 // Employee login routes
 Route::prefix('employee')->group(function () {
     Route::middleware(['guest:employee'])->group(function () {
         Route::get('/login', [\App\Http\Controllers\Employee\Auth\LoginController::class, 'index'])->name('employee.auth.login');
         Route::post('/login/post', [\App\Http\Controllers\Employee\Auth\LoginController::class, 'login'])->name('employee.login');
-<<<<<<< HEAD
-    });
-});
-
-=======
         
         // Registration routes
         Route::get('/register', [\App\Http\Controllers\Employee\Auth\LoginController::class, 'showRegisterForm'])->name('employee.register.view');
         Route::post('/register/post', [\App\Http\Controllers\Employee\Auth\LoginController::class, 'register'])->name('employee.register');
     });
 });
->>>>>>> 915461f (commit)
 // Admin login routes
 Route::prefix('admin')->group(function () {
     Route::middleware(['guest:admin'])->group(function () {
@@ -49,11 +37,8 @@ Route::middleware(['auth:employee'])->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Employee\DashboardController::class, 'index'])->name('employee.dashboard');
         Route::post('/logout', [\App\Http\Controllers\Employee\Auth\LoginController::class, 'logout'])->name('employee.logout');
 
-<<<<<<< HEAD
-=======
         
 
->>>>>>> 915461f (commit)
         // Employee task management routes
         Route::prefix('tasks')->group(function () {
             Route::get('/', [App\Http\Controllers\Employee\TaskController::class, 'index'])->name('employee.tasks.index');

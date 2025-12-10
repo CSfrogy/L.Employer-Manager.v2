@@ -263,9 +263,6 @@ body:not(.employee-login) .login-body .back-link:hover {
     transform: none;
     background: transparent;
 }
-<<<<<<< HEAD
-
-=======
 select.form-control {
     background-repeat: no-repeat;
     background-position: right 12px center;
@@ -278,4 +275,3 @@ select.form-control:focus {
     border-color: #030202;
     box-shadow: 0 0 0 0.2rem rgba(63, 106, 216, 0.25);
 }
->>>>>>> 915461f (commit)

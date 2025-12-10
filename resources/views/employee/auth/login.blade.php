@@ -68,16 +68,12 @@
             </form>
 
             <div class="login-footer">
-<<<<<<< HEAD
-                <p><i class="fas fa-info-circle me-2"></i> Employee access portal</p>
-=======
                 <p>
                     <i class="fas fa-info-circle me-2"></i> Don't have an account? 
                     <a href="{{ route('employee.register.view') }}" style="color: #3f6ad8; text-decoration: none; font-weight: 600;">
                         Create Account
                     </a>
                 </p>
->>>>>>> 915461f (commit)
             </div>
         </div>
     </div>
@@ -172,8 +168,4 @@
     </script>
 </body>
 
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 915461f (commit)

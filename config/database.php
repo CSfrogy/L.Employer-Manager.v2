@@ -58,17 +58,14 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-<<<<<<< HEAD
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
-=======
             'options' => extension_loaded('pdo_mysql') ?         
             array_filter([
                 
             Pdo\Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
 ]) : [],
->>>>>>> 915461f (commit)
         ],
 
         'pgsql' => [

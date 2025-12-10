@@ -1,13 +1,4 @@
 <?php
-<<<<<<< HEAD
-
-namespace App\Http\Controllers\Employee\Auth;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-=======
 namespace App\Http\Controllers\Employee\Auth;
 
 use App\Http\Controllers\Controller;
@@ -17,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
->>>>>>> 915461f (commit)
 
 class LoginController extends Controller
 {
@@ -37,10 +27,6 @@ class LoginController extends Controller
 
         if (Auth::guard('employee')->attempt($credentials)) {
             $request->session()->regenerate();
-<<<<<<< HEAD
-
-=======
->>>>>>> 915461f (commit)
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful!',
@@ -54,15 +40,6 @@ class LoginController extends Controller
         ], 401);
     }
 
-<<<<<<< HEAD
-    public function logout(Request $request)
-    {
-        Auth::guard('employee')->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-=======
     // Registration methods
     public function showRegisterForm(): View
     {
@@ -133,7 +110,6 @@ class LoginController extends Controller
         Auth::guard('employee')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
->>>>>>> 915461f (commit)
         return redirect()->route('employee.auth.login');
     }
 }
