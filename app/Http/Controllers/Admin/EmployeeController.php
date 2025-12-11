@@ -32,7 +32,7 @@ class EmployeeController extends Controller
             'phone' => 'required',
             'dob' => 'required',
             'city' => 'required',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:1024',
+            'image' => 'required|image|mimes:jpg,png,jpeg,heic|max:1024',
         ]);
 
         if ($validation->fails()) {
