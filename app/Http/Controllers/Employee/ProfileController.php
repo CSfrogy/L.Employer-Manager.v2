@@ -22,7 +22,7 @@ class ProfileController extends Controller
         return view('employee.profile.index', [
             'employee' => $employee,
             'user' => $employee,
-            'userRole' => 'employee'
+            'userRole' => 'employee',
         ]);
     }
 
@@ -91,7 +91,7 @@ class ProfileController extends Controller
 
         if ($result) {
             return redirect()->route('employee.profile.index')
-                ->with('success', 'Password updated successfully.');
+                ->with('success', 'Password updated successfully');
         } else {
             return redirect()->back()
                 ->with('error', 'Failed to update password. Please try again.')

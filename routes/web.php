@@ -30,6 +30,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/login/post', [LoginController::class, 'login'])->name('admin.login');
     });
 });
+
 // Employee authenticated routes
 Route::middleware(['auth:employee'])->group(function () {
     Route::prefix('employee')->group(function () {
